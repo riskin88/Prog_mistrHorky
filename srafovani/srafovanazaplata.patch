@@ -1,0 +1,14 @@
+--- srafovani.java	2018-09-30 17:28:28.178421200 +0200
++++ srafovani2.java	2018-09-30 17:33:42.745417000 +0200
+@@ -1,9 +1,9 @@
+-public class srafovani {
++public class srafovani2 {
+     public static void main(String[] args) {
+         int vyska = 10;
+         int pruhy = 5;
+         for (int radekcounter = 1; radekcounter <= vyska; radekcounter++){
+-            for (int odsazeni = 1; odsazeni < radekcounter; odsazeni++){
++            for (int odsazeni = 1; odsazeni <= vyska - radekcounter; odsazeni++){
+                 System.out.printf(" ");
+             }
+             if (pruhy > 0)
