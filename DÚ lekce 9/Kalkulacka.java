@@ -5,12 +5,12 @@ public class Kalkulacka {
       for (int i = 0; i < cleny.length; i++){
         String[] cinitele = cleny[i].split("x");
         int clen = 1;
-          for (int j = 0; j < cinitele.length; j++){
+        for (int j = 0; j < cinitele.length; j++){
             clen *= Integer.parseInt(cinitele[j]);
-          }
+        }
         vysledek += clen;
       }
       System.out.printf("%d", vysledek);
     }
-  }
+}
       
