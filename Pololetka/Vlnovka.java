@@ -17,6 +17,7 @@ public class Vlnovka {
 	}
 	
 	private static boolean cozTakhleDatSiKanal(int radek, int sloupec, int vyska){
+		// (2 * vyska - 2) je interval mezi kanaly v jednotlivych radcich
 		if ((radek - sloupec) % (2 * vyska - 2) == 0 || (radek + sloupec) % (2 * vyska - 2) == 0){
 			return true;
 		}
