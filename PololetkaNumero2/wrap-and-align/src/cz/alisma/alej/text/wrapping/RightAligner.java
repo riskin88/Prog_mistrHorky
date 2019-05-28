@@ -34,7 +34,7 @@ public class RightAligner implements Aligner {
 	private int width;
 	
 	public RightAligner (int w) {
-        width = w;
+        width = w + 1;
     }
 	
 	@Override
