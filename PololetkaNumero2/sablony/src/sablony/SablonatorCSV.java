@@ -23,41 +23,79 @@
 
 package sablony;
 
-import java.io.FileReader;
-import java.io.PrintWriter;
+import java.util.Scanner;
+
 import java.io.IOException;
 import java.io.File;
+import java.util.HashMap;
+import java.io.FileWriter;
 
 public class SablonatorCSV {
 
 	public static void main(String[] args) throws IOException {
-		String outputName = "bytosti-slozenky-%05d.txt";
-		boolean csvProvided = false;
-		String csvFileName = "";
-		int i = 0;
-		while (args.length > i) {
+		String outputName = "templater-out-%05d.txt";
+		Scanner csv = new Scanner(System.in);
+		File templateFile = null;
+		for (int i = 0; i < args.length; i++) {
 			String argument = args[i];
 			if (argument.startsWith("--csv=")) {
-				csvFileName = argument.substring(6);
-				csvProvided = true;
-				break;
+				File csvFile = new File(argument.substring(6));
+				csv = new Scanner(csvFile);
+				continue;
 			}
 			if (argument.startsWith("--template=")) {
-				FileReader template = new FileReader(argument.substring(11));
-				break;
+				templateFile = new File(argument.substring(11));
+				continue;
 			}
 			if (argument.startsWith("--out=")) {
 				outputName = argument.substring(6);
-				break;
+				continue;
 			}
-			i++;
 		}
-		java.util.Scanner sc = new java.util.Scanner(System.in);
-		if (csvProvided) {
-			FileReader csvFile = new FileReader(csvFileName);
-			sc = new java.util.Scanner(csvFile);
+		String[] keys;
+		String keysString = csv.nextLine();
+		keys = keysString.split(",");
+		int fileNum = 1;
+		while (csv.hasNextLine()) {
+			String lajna = csv.nextLine();
+			String[] values = lajna.split(",");
+			HashMap<String, String> variables = new HashMap<String, String>();
+			for (int i = 0; i < keys.length; i++) {
+				variables.put(keys[i], values[i]);
+			}
+			FileWriter outputFile = new FileWriter(String.format(outputName, fileNum));
+			Scanner template = new Scanner(templateFile);
+			ryplejs(template, variables, outputFile);
+			outputFile.close();
+			fileNum++;
 		}
-		
 	}
 
+	public static void ryplejs(Scanner template, HashMap<String, String> variables, FileWriter file)
+			throws IOException {
+		while (template.hasNextLine()) {
+			String lajna = template.nextLine();
+			String[] words = lajna.split(" ");
+			for (int j = 0; j < words.length; j++) {
+				if (words[j].equals("{{")) {
+					j++;
+					String key = words[j];
+					j++;
+					while (!words[j].equals("}}")) {
+						key = key.concat(" " + words[j]);
+						j++;
+					}
+					if (variables.containsKey(key)) {
+						String variable = variables.get(key);
+						file.write(variable + " ");
+
+					} else {
+						file.write("CHYBA");
+					}
+				} else
+					file.write(words[j] + " ");
+			}
+			file.write("\n");
+		}
+	}
 }

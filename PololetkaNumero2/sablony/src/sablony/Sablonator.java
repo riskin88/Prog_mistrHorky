@@ -24,8 +24,7 @@
 package sablony;
 
 import java.util.HashMap;
-import java.util.Iterator;
-
+import java.util.Scanner;
 
 public class Sablonator {
 
@@ -40,9 +39,14 @@ public class Sablonator {
 			}
 			i++;
 		}
-		java.util.Scanner sc = new java.util.Scanner(System.in);
-		while (sc.hasNextLine()) {
-			String lajna = sc.nextLine();
+		Scanner sc = new Scanner(System.in);
+		ryplejs(sc, variables);
+		sc.close();
+	}
+
+	public static void ryplejs(Scanner template, HashMap<String, String> variables) {
+		while (template.hasNextLine()) {
+			String lajna = template.nextLine();
 			String[] words = lajna.split(" ");
 			for (int j = 0; j < words.length; j++) {
 				if (words[j].equals("{{")) {
@@ -56,24 +60,13 @@ public class Sablonator {
 					if (variables.containsKey(key)) {
 						String variable = variables.get(key);
 						System.out.printf("%s ", variable);
+					} else {
+						System.out.printf("CHYBA");
 					}
-					else {
-						System.out.printf("###");
-						System.out.printf("%s ", key);
-					}
-				}
-				else
-				System.out.printf("%s ", words[j]);
+				} else
+					System.out.printf("%s ", words[j]);
 			}
 			System.out.println("");
-		}
-		Iterator iterator = variables.keySet().iterator();
-		  
-		while (iterator.hasNext()) {
-		   String key = iterator.next().toString();
-		   String value = variables.get(key).toString();
-		  
-		   System.out.println(key + " - " + value);
 		}
 	}
 }
