@@ -23,57 +23,41 @@
 
 package sablony;
 
-import java.util.HashMap;
-import java.util.Iterator;
+import java.io.FileReader;
+import java.io.PrintWriter;
+import java.io.IOException;
+import java.io.File;
 
+public class SablonatorCSV {
 
-public class Sablonator {
-
-	public static void main(String[] args) {
-		HashMap<String, String> variables = new HashMap<String, String>();
+	public static void main(String[] args) throws IOException {
+		String outputName = "bytosti-slozenky-%05d.txt";
+		boolean csvProvided = false;
+		String csvFileName = "";
 		int i = 0;
 		while (args.length > i) {
 			String argument = args[i];
-			if (argument.startsWith("--var=")) {
-				String[] mapElement = argument.substring(6).split("=");
-				variables.put(mapElement[0], mapElement[1]);
+			if (argument.startsWith("--csv=")) {
+				csvFileName = argument.substring(6);
+				csvProvided = true;
+				break;
+			}
+			if (argument.startsWith("--template=")) {
+				FileReader template = new FileReader(argument.substring(11));
+				break;
+			}
+			if (argument.startsWith("--out=")) {
+				outputName = argument.substring(6);
+				break;
 			}
 			i++;
 		}
 		java.util.Scanner sc = new java.util.Scanner(System.in);
-		while (sc.hasNextLine()) {
-			String lajna = sc.nextLine();
-			String[] words = lajna.split(" ");
-			for (int j = 0; j < words.length; j++) {
-				if (words[j].equals("{{")) {
-					j++;
-					String key = words[j];
-					j++;
-					while (!words[j].equals("}}")) {
-						key = key.concat(" " + words[j]);
-						j++;
-					}
-					if (variables.containsKey(key)) {
-						String variable = variables.get(key);
-						System.out.printf("%s ", variable);
-					}
-					else {
-						System.out.printf("###");
-						System.out.printf("%s ", key);
-					}
-				}
-				else
-				System.out.printf("%s ", words[j]);
-			}
-			System.out.println("");
+		if (csvProvided) {
+			FileReader csvFile = new FileReader(csvFileName);
+			sc = new java.util.Scanner(csvFile);
 		}
-		Iterator iterator = variables.keySet().iterator();
-		  
-		while (iterator.hasNext()) {
-		   String key = iterator.next().toString();
-		   String value = variables.get(key).toString();
-		  
-		   System.out.println(key + " - " + value);
-		}
+		
 	}
+
 }
