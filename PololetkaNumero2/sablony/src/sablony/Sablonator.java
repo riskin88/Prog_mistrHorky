@@ -40,11 +40,12 @@ public class Sablonator {
 			i++;
 		}
 		Scanner sc = new Scanner(System.in);
-		ryplejs(sc, variables);
+		System.out.println(ryplejs(sc, variables));
 		sc.close();
 	}
 
-	public static void ryplejs(Scanner template, HashMap<String, String> variables) {
+	public static String ryplejs(Scanner template, HashMap<String, String> variables) {
+		String output = "";
 		while (template.hasNextLine()) {
 			String lajna = template.nextLine();
 			String[] words = lajna.split(" ");
@@ -59,14 +60,19 @@ public class Sablonator {
 					}
 					if (variables.containsKey(key)) {
 						String variable = variables.get(key);
-						System.out.printf("%s ", variable);
+						output += variable + " ";
+				//		System.out.printf("%s ", variable);
 					} else {
-						System.out.printf("CHYBA");
+						output += "CHYBA ";
+				//		System.out.printf("CHYBA");
 					}
 				} else
-					System.out.printf("%s ", words[j]);
+					output += words[j] + " ";
+				//	System.out.printf("%s ", words[j]);
 			}
-			System.out.println("");
+			output += "\n";
+			//System.out.println("");
 		}
+		return output;
 	}
 }
