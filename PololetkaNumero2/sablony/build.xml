@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Build file for our project -->
-<project basedir="." name="Word wrapping" default="main">
+<project basedir="." name="Sablony" default="main">
     <target name="main"
             depends="jar"
             description="Default target: create executable JAR."
@@ -62,7 +62,7 @@
             description="Build basic JAR.">
         <mkdir dir="out/jars" />
         <jar destfile="out/jars/sablonator.jar">
-            <fileset dir="out/classes" includes="Sablonator.class" />
+            <fileset dir="out/classes" includes="sablony/Sablonator.class" />
             <manifest>
                 <attribute name="Main-Class" value="sablony.Sablonator" />
             </manifest>
@@ -74,7 +74,7 @@
             description="Build CSV JAR.">
         <mkdir dir="out/jars" />
         <jar destfile="out/jars/sablonator_csv.jar">
-            <fileset dir="out/classes" includes="SablonatorCSV.class" />
+            <fileset dir="out/classes" includes="sablony/SablonatorCSV.class" />
             <manifest>
                 <attribute name="Main-Class" value="sablony.SablonatorCSV" />
             </manifest>
@@ -82,7 +82,7 @@
     </target>
 
     <target name="example"
-            depends="jar"
+            depends="jar-csv"
             description="Example execution: CSV Sablonator.">
         <java jar="out/jars/sablonator_csv.jar" fork="true">
 			<arg value="--template=slozenka.tpl"/>
@@ -101,7 +101,7 @@
             description="Remove example outputs."
         >
         <delete>
-			<fileset dir="out/jars" includes="*.txt" />
+			<fileset dir="." includes="*.txt" />
 		</delete>
     </target>
 </project>
