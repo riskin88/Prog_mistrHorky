@@ -1,0 +1,10 @@
+language: java
+before_install:
+  - sudo apt-get install ant-optional
+before_script:
+  - cd PololetkaNumero2/sablony
+script:
+  - ant
+  - ant test
+os:
+  - linux
