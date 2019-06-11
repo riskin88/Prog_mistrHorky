@@ -9,48 +9,50 @@ import java.util.Scanner;
 public class SablonatorTest {
 
 	@Test
+	public void noVariable() {
+		HashMap<String, String> map = new HashMap<String, String>();
+		assertEquals("Ahoj svete \n", Sablonator.ryplejs(new Scanner("Ahoj svete"), map));
+	}
+
+	@Test
 	public void basic() {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("jmeno", "Pepa");
 		assertEquals("Jmeno: Pepa \n", Sablonator.ryplejs(new Scanner("Jmeno: {{ jmeno }}"), map));
 	}
-	
+
 	@Test
 	public void twoReplaces() {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("jmeno", "Pepa");
 		map.put("prijmeni", "Okurka");
-		assertEquals("Jmeno: Pepa \n"
-				+ "Prijmeni: Okurka \n", Sablonator.ryplejs(new Scanner("Jmeno: {{ jmeno }} \n"
-						+ "Prijmeni: {{ prijmeni }}"), map));
-		
+		assertEquals("Jmeno: Pepa \n" + "Prijmeni: Okurka \n",
+				Sablonator.ryplejs(new Scanner("Jmeno: {{ jmeno }} \n" + "Prijmeni: {{ prijmeni }}"), map));
+
 	}
-	
+
 	@Test
 	public void moreReplacesinLine() {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("jmeno", "Pepa");
 		map.put("otcestvo", "Pepovic");
 		map.put("prijmeni", "Okurka");
-		assertEquals("Jmeno: Pepa "
-				+ "Otcestvo: Pepovic "
-				+ "Prijmeni: Okurka \n", Sablonator.ryplejs(new Scanner("Jmeno: {{ jmeno }} "
-						+ "Otcestvo: {{ otcestvo }} "
-						+ "Prijmeni: {{ prijmeni }}"), map));
+		assertEquals("Jmeno: Pepa " + "Otcestvo: Pepovic " + "Prijmeni: Okurka \n", Sablonator.ryplejs(
+				new Scanner("Jmeno: {{ jmeno }} " + "Otcestvo: {{ otcestvo }} " + "Prijmeni: {{ prijmeni }}"), map));
 	}
-	
+
 	@Test
 	public void moreUsesOfTheSameKey() {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("jmeno", "Pepa");
 		map.put("prijmeni", "Okurka");
-		assertEquals("Jmeno: Pepa \n"
-				+ "Druhe jmeno: Pepa \n"
-				+ "Prijmeni: Okurka \n", Sablonator.ryplejs(new Scanner("Jmeno: {{ jmeno }} \n"
-						+ "Druhe jmeno: {{ jmeno }} \n"
-						+ "Prijmeni: {{ prijmeni }}"), map));
+		assertEquals("Jmeno: Pepa \n" + "Druhe jmeno: Pepa \n" + "Prijmeni: Okurka \n",
+				Sablonator.ryplejs(
+						new Scanner(
+								"Jmeno: {{ jmeno }} \n" + "Druhe jmeno: {{ jmeno }} \n" + "Prijmeni: {{ prijmeni }}"),
+						map));
 	}
-	
+
 	@Test
 	public void moreWordsKey() {
 		HashMap<String, String> map = new HashMap<String, String>();
